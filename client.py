@@ -27,7 +27,6 @@ import json
 import numpy as np
 from mlagents_envs.base_env import ActionTuple
 from mlagents_envs.environment import UnityEnvironment
-from mlagents_envs.side_channel.string_log_channel import StringLogChannel
 
 from ai_model import DrivingModel, load_normalization_stats, normalize
 from data_collector import DataCollector
@@ -56,13 +55,10 @@ def connect_to_unity(config: dict, port: int = 5004) -> tuple:
     """
     print(f"[Client] Connecting to Unity on port {port}...")
 
-    # StringLogChannel lets us send the agent config JSON to Unity
-    string_channel = StringLogChannel()
-
     env = UnityEnvironment(
         file_name=None,  # simulator must already be running
         base_port=port,
-        side_channels=[string_channel],
+        side_channels=[],
         additional_args=["--config-path", "config.json"],
     )
     env.reset()
